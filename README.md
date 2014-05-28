@@ -61,6 +61,16 @@ app.configure(function () {
 });
 ```
 
+You can also tell express-pouchdb to write its database files to a directory other than the `pwd`.  Use e.g.:
+
+```js
+var expressPouchDB = require('express-pouchdb');
+expressPouchDB.setPath('/path/to/my/db/files');
+app.use(expressPouchDB);
+```
+
+express-pouchdb will create this directory if it doesn't already exist.
+
 ## Contributing
 
 Want to help me make this thing awesome? Great! Here's how you should get started.
