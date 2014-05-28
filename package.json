@@ -13,7 +13,7 @@
   },
   "main": "./index.js",
   "dependencies": {
-    "pouchdb": "pouchdb/pouchdb",
+    "pouchdb": "^2.2.2",
     "raw-body": "^1.1.5",
     "extend": "^1.2.1"
   },
