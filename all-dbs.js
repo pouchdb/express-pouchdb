@@ -2,6 +2,7 @@ var Pouch = require('pouchdb');
 
 var pouch;
 var path;
+var leveldown;
 
 function normalize(name) {
   if (path && name.substring(0, path.length) === path) {
@@ -16,7 +17,11 @@ function setup() {
     if (path) {
       name = require('path').join(path, name);
     }
-    pouch = new Pouch(name);
+    var opts = {};
+    if (leveldown) {
+      opts.db = leveldown;
+    }
+    pouch = new Pouch(name, opts);
   }
 }
 
@@ -72,4 +77,7 @@ exports.allDbs = function(callback) {
 
 exports.setPath = function(thisPath) {
   path = thisPath;
-}
+};
+exports.setBackend = function(backend) {
+  leveldown = backend;
+};

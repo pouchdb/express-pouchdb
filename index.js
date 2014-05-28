@@ -18,6 +18,7 @@ function isPouchError(obj) {
 }
 
 var pouchPath;
+var leveldown;
 
 module.exports.setPath = function (filepath) {
   pouchPath = path.resolve(filepath);
@@ -25,6 +26,10 @@ module.exports.setPath = function (filepath) {
   mkdirp.sync(pouchPath);
 };
 
+module.exports.setBackend = function (backend) {
+  leveldown = backend;
+  allDbs.setBackend(backend);
+};
 
 app.use('/js', express.static(__dirname + '/fauxton/js'));
 app.use('/css', express.static(__dirname + '/fauxton/css'));
@@ -183,7 +188,11 @@ app.put('/:db', function (req, res, next) {
     });
   }
 
-  new Pouch(fullName, function (err, db) {
+  var opts = {};
+  if (leveldown) {
+    opts.db = leveldown;
+  }
+  new Pouch(fullName, opts, function (err, db) {
     if (err) return res.send(412, err);
     dbs[name] = db;
     var loc = req.protocol
@@ -220,24 +229,38 @@ app.delete('/:db', function (req, res, next) {
     // Check for the data stores, and rebuild a Pouch instance if able
     var fullName = pouchPath ? path.join(pouchPath, name) : name;
 
-    fs.stat(fullName, function (err, stats) {
-      if (err && err.code == 'ENOENT') {
-        return res.send(404, {
-          status: 404,
-          error: 'not_found',
-          reason: 'no_db_file'
-        });
+    function createPouch() {
+      var opts = {};
+      if (leveldown) {
+        opts.db = leveldown;
       }
+      new Pouch(fullName, opts, function (err, db) {
+        if (err) return res.send(412, err);
+        dbs[name] = db;
+        req.db = db;
+        return next();
+      });
+    }
 
-      if (stats.isDirectory()) {
-        new Pouch(fullName, function (err, db) {
-          if (err) return res.send(412, err);
-          dbs[name] = db;
-          req.db = db;
-          return next();
-        });
-      }
-    });
+    if (!leveldown) {
+      // levelup adapter, so check file directory
+      fs.stat(fullName, function (err, stats) {
+        if (err && err.code == 'ENOENT') {
+          return res.send(404, {
+            status: 404,
+            error: 'not_found',
+            reason: 'no_db_file'
+          });
+        }
+
+        if (stats.isDirectory()) {
+          createPouch();
+        }
+      });
+    } else {
+      // in-memory, no need to check
+      createPouch();
+    }
   });
 });
 
