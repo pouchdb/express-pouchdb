@@ -1,38 +1,58 @@
-var Pouch = require('pouchdb');
+var path = require('path');
 
-var pouch = new Pouch('pouch__all_dbs__');
+var Pouch;
+var pouch;
 
-Pouch.on('created', function (dbName) {
-  if (dbName === 'pouch__all_dbs__') {
-    return;
+function normalize(name) {
+  return path.basename(name);
+}
+
+function setup() {
+  if (!pouch) {
+    pouch = new Pouch('pouch__all_dbs__');
   }
-  pouch.get('db_' + dbName).then(function (doc) {
-    // db exists, nothing to do
-  }).catch(function (err) {
-    if (err.name !== 'not_found') {
-      console.error(err);
+}
+
+function init() {
+  Pouch.on('created', function (dbName) {
+    setup();
+    dbName = normalize(dbName);
+
+    if (dbName === 'pouch__all_dbs__') {
       return;
     }
-    pouch.put({_id: 'db_' + dbName}).catch(function (err) {
-      console.error(err);
+    pouch.get('db_' + dbName).then(function (doc) {
+      // db exists, nothing to do
+    }).catch(function (err) {
+      if (err.name !== 'not_found') {
+        console.error(err);
+        return;
+      }
+      pouch.put({_id: 'db_' + dbName}).catch(function (err) {
+        console.error(err);
+      });
     });
   });
-});
 
-Pouch.on('destroyed', function (dbName) {
-  pouch.get('db_' + dbName).then(function (doc) {
-    pouch.remove(doc).catch(function (err) {
-      console.error(err);
+  Pouch.on('destroyed', function (dbName) {
+    setup();
+    dbName = normalize(dbName);
+
+    pouch.get('db_' + dbName).then(function (doc) {
+      pouch.remove(doc).catch(function (err) {
+        console.error(err);
+      });
+    }).catch(function (err) {
+      // normally a not_found error; nothing to do
+      if (err.name !== 'not_found') {
+        console.error(err);
+      }
     });
-  }).catch(function (err) {
-    // normally a not_found error; nothing to do
-    if (err.name !== 'not_found') {
-      console.error(err);
-    }
   });
-});
+}
 
-module.exports = function(callback) {
+exports.allDbs = function(callback) {
+  setup();
   pouch.allDocs().then(function (res) {
     var dbs = res.rows.map(function (row) {
       return row.key.replace(/^db_/, '');
@@ -44,3 +64,8 @@ module.exports = function(callback) {
     callback(err);
   })
 };
+
+exports.setPouch = function (PouchToUse) {
+  Pouch = PouchToUse;
+  init();
+}
