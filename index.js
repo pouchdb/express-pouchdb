@@ -7,14 +7,13 @@ var express   = require('express')
   , pkg       = require('./package.json')
   , dbs       = {}
   , uuids     = require('./uuids')
-  , allDbs    = require('./all-dbs')
   , histories = {}
   , app       = express();
 
 var Pouch;
 module.exports = function(PouchToUse) {
   Pouch = PouchToUse;
-  allDbs.setPouch(PouchToUse);
+  require('pouchdb-all-dbs')(Pouch);
   return app;
 };
 
@@ -101,7 +100,7 @@ app.get('/_uuids', function (req, res, next) {
 
 // List all databases.
 app.get('/_all_dbs', function (req, res, next) {
-  allDbs.allDbs(function (err, response) {
+  Pouch.allDbs(function (err, response) {
     if (err) res.send(500, Pouch.UNKNOWN_ERROR);
     res.send(200, response);
   });
@@ -208,7 +207,7 @@ app.delete('/:db', function (req, res, next) {
       return next();
     }
 
-    allDbs.allDbs(function (err, dbs) {
+    Pouch.allDbs(function (err, dbs) {
       if (err) {
         return res.send(500, err);
       } else if (dbs.indexOf(name) === -1) {

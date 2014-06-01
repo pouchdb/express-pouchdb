@@ -14,6 +14,7 @@
   "main": "./index.js",
   "dependencies": {
     "extend": "^1.2.1",
+    "pouchdb-all-dbs": "^0.1.0",
     "raw-body": "^1.1.5"
   },
   "devDependencies": {
