@@ -118,6 +118,12 @@ I haven't defined a formal styleguide, so please take care to maintain the exist
 
 The custom Fauxton theme, with the PouchDB Server name and logo, are kept [in a Fauxton fork](https://github.com/nolanlawson/couchdb-fauxton) for the time being.
 
+Fauxton can be accessed at `/_utils`.
+
+### Futon
+
+If you prefer the older Futon API, it's available at `/_futon/`.
+
 ## Contributors
 
 A huge thanks goes out to all of the following people for helping me get this to where it is now.

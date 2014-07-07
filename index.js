@@ -79,6 +79,7 @@ function sendCouchDBResp(res, err, couchResp) {
 app.use('/js', express.static(__dirname + '/fauxton/js'));
 app.use('/css', express.static(__dirname + '/fauxton/css'));
 app.use('/img', express.static(__dirname + '/fauxton/img'));
+app.use('/_futon', express.static(__dirname + '/futon'));
 
 app.use(function (req, res, next) {
   var opts = {}
@@ -173,6 +174,18 @@ app.get('/_utils', function (req, res, next) {
 });
 
 // Config (stub for now)
+app.get('/_config/query_servers', function (req, res, next) {
+  res.send(200, {"javascript": "yep"}); // futon expects a 200
+});
+
+app.get('/_config/native_query_servers', function (req, res, next) {
+  res.send(200, {}); // futon expects a 200
+});
+
+app.get('/_futon/docs', function (req, res, next) {
+  res.send(200, 'Not found'); // futon expects a 200
+});
+
 app.get('/_config', function (req, res, next) {
   res.send(200, {
     facts: { 
@@ -317,6 +330,7 @@ app.delete('/:db', function (req, res, next) {
 app.get('/:db', function (req, res, next) {
   req.db.info(function (err, info) {
     if (err) return res.send(404, err);
+    info.disk_size = 0; // TODO: implement
     res.send(200, info);
   });
 });
