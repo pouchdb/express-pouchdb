@@ -292,8 +292,8 @@ app.put('/:db', function (req, res, next) {
     registerDB(name, db);
     var loc = req.protocol
       + '://'
-      + ((req.host === '127.0.0.1') ? '' : req.subdomains.join('.') + '.')
-      + req.host
+      + ((req.hostname === '127.0.0.1') ? '' : req.subdomains.join('.') + '.')
+      + req.hostname
       + '/' + name;
     res.location(loc);
     res.send(201, { ok: true });
@@ -552,8 +552,8 @@ app.put('/:db/:id(*)', function (req, res, next) {
     if (err) return res.send(err.status || 500, err);
     var loc = req.protocol
       + '://'
-      + ((req.host === '127.0.0.1') ? '' : req.subdomains.join('.') + '.')
-      + req.host
+      + ((req.hostname === '127.0.0.1') ? '' : req.subdomains.join('.') + '.')
+      + req.hostname
       + '/' + req.params.db
       + '/' + req.body._id;
     res.location(loc);
