@@ -230,50 +230,65 @@ app.post('/_replicate', function (req, res, next) {
   var source = req.body.source
     , target = req.body.target
     , opts = { continuous: !!req.body.continuous };
+    
+  var live = opts.continuous;
+  var RESTART_RATE = 5000; // dumb method; just keep trying every 5000 seconds
 
   if (req.body.filter) opts.filter = req.body.filter;
   if (req.body.query_params) opts.query_params = req.body.query_params;
 
   var startDate = new Date();
-  Pouch.replicate(source, target, opts).then(function (response) {
+  function startReplication() {
+    Pouch.replicate(source, target, opts).on('complete', function (response) {
     
-    var historyObj = extend(true, {
-      start_time: startDate.toJSON(),
-      end_time: new Date().toJSON(),
-    }, response);
+      var historyObj = extend(true, {
+        start_time: startDate.toJSON(),
+        end_time: new Date().toJSON(),
+      }, response);
     
-    var currentHistories = [];
+      var currentHistories = [];
     
-    if (!/^https?:\/\//.test(source)) {
-      histories[source] = histories[source] || [];
-      currentHistories.push(histories[source]);
+      if (!/^https?:\/\//.test(source)) {
+        histories[source] = histories[source] || [];
+        currentHistories.push(histories[source]);
 
-    }
-    if (!/^https?:\/\//.test(target)) {
-      histories[target] = histories[target] || [];
-      currentHistories.push(histories[target]);
-    }
+      }
+      if (!/^https?:\/\//.test(target)) {
+        histories[target] = histories[target] || [];
+        currentHistories.push(histories[target]);
+      }
     
-    currentHistories.forEach(function (history) {
-      // CouchDB caps history at 50 according to
-      // http://guide.couchdb.org/draft/replication.html
-      history.push(historyObj);
-      if (history.length > 50) {
-        history.splice(0, 1); // TODO: this is slow, use a stack instead
-      }      
+      currentHistories.forEach(function (history) {
+        // CouchDB caps history at 50 according to
+        // http://guide.couchdb.org/draft/replication.html
+        history.push(historyObj);
+        if (history.length > 50) {
+          history.splice(0, 1); // TODO: this is slow, use a stack instead
+        }      
+      });
+    
+      response.history = histories[source] || histories[target] || [];
+      if (!live) {
+        res.send(200, response);
+      }
+    }).on('error', function (err) {
+      if (!live) {
+        res.send(400, err);
+      } else {
+        console.error('Replication error: ' + JSON.stringify(err));
+        console.log('Restarting live replication...');
+        setTimeout(startReplication, RESTART_RATE);
+      }
     });
-    
-    response.history = histories[source] || histories[target] || [];
-    res.send(200, response);
-  }, function (err) {
-    res.send(400, err);
-  });
+  }
+  
+  startReplication();
 
   // if continuous pull replication return 'ok' since we cannot wait for callback
   if (target in dbs && opts.continuous) {
     res.send(200, { ok : true });
   }
-
+  
 });
 
 // Create a database.
