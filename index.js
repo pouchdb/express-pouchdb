@@ -572,14 +572,14 @@ app.post('/_replicate', jsonParser, function (req, res, next) {
 
   var startDate = new Date();
   PouchDB.replicate(source, target, opts).then(function (response) {
-    
+
     var historyObj = extend(true, {
       start_time: startDate.toJSON(),
       end_time: new Date().toJSON()
     }, response);
-    
+
     var currentHistories = [];
-    
+
     if (!/^https?:\/\//.test(source)) {
       histories[source] = histories[source] || [];
       currentHistories.push(histories[source]);
@@ -589,16 +589,16 @@ app.post('/_replicate', jsonParser, function (req, res, next) {
       histories[target] = histories[target] || [];
       currentHistories.push(histories[target]);
     }
-    
+
     currentHistories.forEach(function (history) {
       // CouchDB caps history at 50 according to
       // http://guide.couchdb.org/draft/replication.html
       history.push(historyObj);
       if (history.length > 50) {
         history.splice(0, 1); // TODO: this is slow, use a stack instead
-      }      
+      }
     });
-    
+
     response.history = histories[source] || histories[target] || [];
     sendJSON(res, 200, response);
   }, function (err) {
@@ -612,26 +612,7 @@ app.post('/_replicate', jsonParser, function (req, res, next) {
 
 });
 
-// Create a database.
-app.put('/:db', jsonParser, function (req, res, next) {
-  var name = encodeURIComponent(req.params.db);
-
-  if (name in dbs) {
-    return sendJSON(res, 412, {
-      'error': 'file_exists',
-      'reason': 'The database could not be created.'
-    });
-  }
-
-  // PouchDB.new() instead of new PouchDB() because that adds
-  // authorisation logic
-  PouchDB.new(name, makeOpts(req), function (err, db) {
-    if (err) return sendError(res, err, 412);
-    registerDB(name, db);
-    setLocation(res, name);
-    sendJSON(res, 201, { ok: true });
-  });
-});
+require('./lib/routes/core.js')(app, PouchDB);
 
 // Delete a database
 app.delete('/:db', function (req, res, next) {
