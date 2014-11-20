@@ -609,39 +609,14 @@ module.exports = function(PouchToUse) {
 
   });
 
-  // Create a database.
-  app.put('/:db', jsonParser, function (req, res, next) {
-    var name = encodeURIComponent(req.params.db);
-
-    if (name in dbs) {
-      return sendJSON(res, 412, {
-        'error': 'file_exists',
-        'reason': 'The database could not be created.'
-      });
-    }
-
-    // PouchDB.new() instead of new PouchDB() because that adds
-    // authorisation logic
-    PouchDB.new(name, makeOpts(req), function (err, db) {
-      if (err) return sendError(res, err, 412);
-      registerDB(name, db);
-      setLocation(res, name);
-      sendJSON(res, 201, { ok: true });
-    });
-  });
-
-  // Delete a database
+  // Hacky
   app.delete('/:db', function (req, res, next) {
     var name = encodeURIComponent(req.params.db);
-    PouchDB.destroy(name, makeOpts(req), function (err, info) {
-      if (err) return sendError(res, err);
-      delete dbs[name];
-      //if one of these was removed, it should re-appear.
-      if (usersDBName === name) ensureUsersDB();
-      if (replicatorDBName === name) ensureReplicatorDB();
-      sendJSON(res, 200, { ok: true });
-    });
+    delete dbs[name];
+    next();
   });
+
+  require('./lib/routes/db.js')(app, PouchDB);
 
   // At this point, some route middleware can take care of identifying the
   // correct PouchDB instance.
