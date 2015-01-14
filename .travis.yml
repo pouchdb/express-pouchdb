@@ -38,10 +38,6 @@ env:
   # Test against the couchdb harness
   - COMMAND=test-couchdb
  
-matrix:
-  allow_failures:
-  - env: COMMAND=test-couchdb
-
 branches:
   only:
   - master
