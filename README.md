@@ -209,3 +209,4 @@ then check out the [contributing guide](https://github.com/pouchdb/express-pouch
 ## License
 
 The MIT License. See [the LICENSE file](https://github.com/pouchdb/express-pouchdb/blob/master/LICENSE) for more information.
+
