@@ -31,7 +31,7 @@
     "pouchdb-rewrite": "^1.0.0",
     "pouchdb-security": "^1.2.0",
     "pouchdb-show": "^1.0.0",
-    "pouchdb-size": "^1.0.0",
+    "pouchdb-size": "nolanlawson/pouchdb-size#86030fab2fbeb787e4e6a36099af0d872b18ac82",
     "pouchdb-update": "^1.0.0",
     "pouchdb-validation": "^1.1.5",
     "pouchdb-vhost": "^1.0.0",
