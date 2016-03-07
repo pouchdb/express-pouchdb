@@ -14,7 +14,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "basic-auth": "^1.0.0",
-    "bluebird": "^2.2.2",
+    "bluebird": "^3.3.4",
     "body-parser": "^1.5.2",
     "compression": "^1.0.10",
     "cookie-parser": "^1.3.2",
@@ -56,5 +56,8 @@
     "test-express-pouchdb": "./node_modules/.bin/mocha",
     "test": "npm run jshint && npm run test-express-pouchdb && npm run test-pouchdb && npm run test-pouchdb-minimum"
   },
-  "files": ["lib", "fauxton"]
+  "files": [
+    "lib",
+    "fauxton"
+  ]
 }
