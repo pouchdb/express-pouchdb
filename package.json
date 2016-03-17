@@ -44,7 +44,7 @@
     "jshint": "2.8.0",
     "memdown": "^1.0.0",
     "mocha": "^2.0.1",
-    "pouchdb": "^5.2.0",
+    "pouchdb": "^5.3.1",
     "pouchdb-server": "^0.9.0",
     "supertest": "^0.15.0"
   },
@@ -56,5 +56,8 @@
     "test-express-pouchdb": "./node_modules/.bin/mocha",
     "test": "npm run jshint && npm run test-express-pouchdb && npm run test-pouchdb && npm run test-pouchdb-minimum"
   },
-  "files": ["lib", "fauxton"]
+  "files": [
+    "lib",
+    "fauxton"
+  ]
 }
