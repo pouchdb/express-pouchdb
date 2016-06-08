@@ -13,7 +13,7 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "basic-auth": "1.0.3",
+    "basic-auth": "1.0.4",
     "bluebird": "3.3.4",
     "body-parser": "1.15.0",
     "compression": "1.6.1",
