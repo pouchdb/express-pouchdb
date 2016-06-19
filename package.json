@@ -36,7 +36,7 @@
     "pouchdb-validation": "1.2.1",
     "pouchdb-vhost": "1.0.2",
     "pouchdb-wrappers": "1.3.6",
-    "raw-body": "2.1.6"
+    "raw-body": "2.1.7"
   },
   "devDependencies": {
     "express": "4.10.5",
