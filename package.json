@@ -43,7 +43,7 @@
     "express": "4.14.0",
     "fs-extra": "0.30.0",
     "jshint": "~2.8.0",
-    "memdown": "1.2.1",
+    "memdown": "1.2.2",
     "mocha": "2.5.3",
     "pouchdb": "^6.0.4",
     "pouchdb-node": "^6.0.4",
