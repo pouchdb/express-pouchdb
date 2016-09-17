@@ -46,7 +46,7 @@
     "memdown": "1.2.1",
     "mocha": "2.5.3",
     "pouchdb": "^6.0.4",
-    "pouchdb-node": "^6.0.4",
+    "pouchdb-node": "^6.0.5",
     "pouchdb-server": "~1.2.0",
     "supertest": "2.0.0"
   },
