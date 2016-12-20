@@ -8,12 +8,11 @@
 # from npm
 rm -fr node_modules/pouchdb
 git clone --single-branch \
-  --branch for-express-pouchdb-testing-DONT-DELETE \
+  --branch master \
   --depth 1 \
   https://github.com/pouchdb/pouchdb.git node_modules/pouchdb
 
 cd node_modules/pouchdb/
-# checkout pouchdb 6.0.7 commit for now
 npm install
 cd node_modules/pouchdb-server/node_modules
 rm -fr express-pouchdb
