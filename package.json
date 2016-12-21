@@ -32,6 +32,7 @@
     "pouchdb-security": "^1.2.6",
     "pouchdb-show": "^1.0.8",
     "pouchdb-size": "^1.2.2",
+    "pouchdb-promise": "6.1.0",
     "pouchdb-update": "^1.0.8",
     "pouchdb-validation": "^1.2.1",
     "pouchdb-vhost": "^1.0.2",
