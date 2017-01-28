@@ -42,7 +42,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "fs-extra": "^0.30.0",
     "jshint": "2.8.0",
     "memdown": "^1.2.1",
