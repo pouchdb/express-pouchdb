@@ -14,7 +14,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "basic-auth": "^1.0.4",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.16.1",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
     "denodeify": "^1.2.1",
