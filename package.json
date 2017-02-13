@@ -43,8 +43,8 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "fauxton": "apache/couchdb-fauxton#7e7e774",
     "express": "^4.14.0",
+    "fauxton": "apache/couchdb-fauxton#7e7e774",
     "fs-extra": "^2.0.0",
     "jshint": "2.8.0",
     "memdown": "^1.2.1",
