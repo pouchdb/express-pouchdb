@@ -15,9 +15,8 @@ sed "s/@brandPrimaryDark: @darkRed;/@brandPrimaryDark: darken(@pouchBrandPrimary
 sed "s/Project Fauxton/PouchDB Server/g" \
   node_modules/fauxton/assets/index.underscore
 
-sed "s/dashboard.assets/img/couchdb-logo.png/favicon.ico/g" \
+sed "s/dashboard.assets/img/couchdb-logo.png/dashboard.assets/img/pouchdb-favicon.ico/g" \
   node_modules/fauxton/assets/index.underscore
-
 
 # merge fauxton-merge with node_modules/fauxton
 for filename in `find fauxton-merge -type d | sed 's/fauxton-merge\///'g`; do
