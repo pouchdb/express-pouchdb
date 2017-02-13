@@ -36,8 +36,8 @@ done
 # rebuild fauxton
 cd node_modules/fauxton
 npm install
-npm run preversion
+npm run couchdb
 cd ../..
 
 rm -fr fauxton
-cp -r node_modules/fauxton/dist fauxton
+cp -r node_modules/fauxton/share/www fauxton
