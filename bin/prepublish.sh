@@ -12,10 +12,10 @@ sed "s/@brandPrimaryDark: @darkRed;/@brandPrimaryDark: darken(@pouchBrandPrimary
   node_modules/fauxton/assets/less/variables.less
 
 # ditto for favicon and title
-sed "s/Project Fauxton/PouchDB Server/g" \
+sed "s/Project Fauxton/PouchDB Server/" \
   node_modules/fauxton/assets/index.underscore
 
-sed "s/dashboard.assets/img/couchdb-logo.png/dashboard.assets/img/pouchdb-favicon.ico/g" \
+sed "s/dashboard.assets/img/couchdb-logo.png/dashboard.assets/img/pouchdb-favicon.ico/" \
   node_modules/fauxton/assets/index.underscore
 
 # merge fauxton-merge with node_modules/fauxton
