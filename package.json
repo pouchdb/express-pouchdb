@@ -43,6 +43,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "couchdb-fauxton": "apache/couchdb-fauxton#7e7e774",
     "express": "^4.14.0",
     "fs-extra": "^2.0.0",
     "jshint": "2.8.0",
@@ -53,6 +54,7 @@
     "supertest": "^3.0.0"
   },
   "scripts": {
+    "prepublish": "bash ./bin/prepublish.sh",
     "jshint": "jshint -c .jshintrc lib test",
     "test-pouchdb": "./bin/test-setup.sh && ./bin/test-pouchdb.sh",
     "test-pouchdb-minimum": "./bin/test-setup.sh && ./bin/test-pouchdb-minimum.sh",

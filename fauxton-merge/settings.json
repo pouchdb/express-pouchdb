@@ -1,0 +1,86 @@
+{
+  "deps": [
+    { "name": "fauxton" },
+    { "name": "components" },
+    { "name": "databases" },
+    { "name": "documents" },
+    { "name": "activetasks" },
+    { "name": "cluster" },
+    { "name": "config" },
+    { "name": "replication" },
+    { "name": "cors" },
+    { "name": "permissions" },
+    { "name": "auth" },
+    { "name": "verifyinstall" },
+    { "name": "documentation" },
+    { "name": "pouchdb-server" }
+  ],
+  "template": {
+    "development": {
+      "src": "assets/index.underscore",
+      "dest": "dist/debug/index.html",
+      "variables": {
+        "bundlejs": "/bundle.js",
+        "css": "./dashboard.assets/css/index.css",
+        "base": null,
+        "development": true
+      },
+      "app": {
+        "root": "/",
+        "host": "../..",
+        "version": "1.0.dev"
+      }
+    },
+    "release": {
+      "src": "assets/index.underscore",
+      "dest": "dist/debug/index.html",
+      "variables": {
+        "bundlejs": "./dashboard.assets/js/BUNDLEJS_FILE",
+        "css": "./dashboard.assets/css/CSS_FILE",
+        "base": null,
+        "development": false
+      },
+      "app": {
+        "root": "/",
+        "host": "../..",
+        "version": "1.0"
+      }
+    },
+    "couchapp": {
+      "src": "assets/index.underscore",
+      "dest": "dist/debug/index.html",
+      "variables": {
+        "bundlejs": "./js/BUNDLEJS_FILE",
+        "css": "./css/CSS_FILE",
+        "base": null,
+        "development": false
+      },
+      "app": {
+        "root": "/",
+        "host": "../../..",
+        "version": "1.0"
+      }
+    }
+  },
+
+  "couch_config": {
+    "fauxton": {
+      "db": "http://localhost:5984/fauxton",
+      "app": "./couchapp.js",
+      "options": {
+        "okay_if_missing": true
+      }
+    }
+  },
+
+  "nightwatch": {
+    "fauxton_username": "tester",
+    "password": "testerpass",
+    "fauxton_port": "8000",
+    "db_host": "localhost",
+    "db_port": "5984",
+    "custom_commands_path": ["test/nightwatch_tests/custom-commands", "test/nightwatch_tests/custom-commands/auth"],
+    "globals_path": "test/nightwatch_tests/helpers/helpers.js",
+    "selenium_port": "4444"
+  }
+}

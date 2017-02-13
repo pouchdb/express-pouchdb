@@ -12,3 +12,4 @@ _replicator
 config.json
 log.txt
 /pouchdb
+/fauxton
