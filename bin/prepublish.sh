@@ -40,4 +40,4 @@ npm run couchdb
 cd ../..
 
 rm -fr fauxton
-cp -r node_modules/fauxton/share/www fauxton
+cp -r node_modules/fauxton/dist/release fauxton

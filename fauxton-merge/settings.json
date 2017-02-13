@@ -33,7 +33,7 @@
     },
     "release": {
       "src": "assets/index.underscore",
-      "dest": "dist/debug/index.html",
+      "dest": "dist/release/index.html",
       "variables": {
         "bundlejs": "./dashboard.assets/js/BUNDLEJS_FILE",
         "css": "./dashboard.assets/css/CSS_FILE",
