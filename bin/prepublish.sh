@@ -6,16 +6,22 @@
 #
 
 # unfortunately there is no nicer way to replace the brand color
-sed "s/@brandPrimary: @red/@brandPrimary: darken(#6ccb99, 5%)/" \
+./node_modules/.bin/replace \
+  "@brandPrimary: @red" \
+  "@brandPrimary: darken(#6ccb99, 5%)" \
   node_modules/fauxton/assets/less/variables.less
-sed "s/@brandPrimaryDark: @darkRed;/@brandPrimaryDark: darken(@pouchBrandPrimary, 10%)/" \
+./node_modules/.bin/replace \
+  "@brandPrimaryDark: @darkRed;" \
+  "@brandPrimaryDark: darken(@pouchBrandPrimary, 10%)" \
   node_modules/fauxton/assets/less/variables.less
 
 # ditto for favicon and title
-sed "s/Project Fauxton/PouchDB Server/" \
+./node_modules/.bin/replace \
+  "Project Fauxton" "PouchDB Server" \
   node_modules/fauxton/assets/index.underscore
-
-sed "s/dashboard.assets/img/couchdb-logo.png/dashboard.assets/img/pouchdb-favicon.ico/" \
+./node_modules/.bin/replace \
+  "dashboard.assets/img/couchdb-logo.png" \
+  "dashboard.assets/img/pouchdb-favicon.ico" \
   node_modules/fauxton/assets/index.underscore
 
 # merge fauxton-merge with node_modules/fauxton
